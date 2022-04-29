@@ -14,13 +14,14 @@ import { filterSlice } from './filterSlice';
 //   },
 // });
 // ========== HW-7  =========
-import contactsReducer from './contacts/contactsReducer';
+import { entities, isLoading, error } from './contacts/contactsReducers';
 
-// const contacts = combineReducers({
-//   entities: contactsReducer.entities,
-//   isLoading: contactsReducer.isLoading,
-//   filter: filterSlice.reducer,
-// });
+const contacts = combineReducers({
+  entities,
+  isLoading,
+  error,
+  filter: filterSlice.reducer,
+});
 
 export const store = configureStore({
   reducer: {
@@ -28,7 +29,7 @@ export const store = configureStore({
     //   items: contactsReducer,
     //   filter: filterSlice.reducer,
     // }),
-    contacts: contactsReducer,
+    contacts,
     // filter: filterSlice.reducer,
   },
 });

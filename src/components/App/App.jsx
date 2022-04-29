@@ -23,11 +23,12 @@ function App() {
   //   }
   // }, [contacts]);
 
-  const dispatch = useDispatch();
-  const contacts = useSelector(state => state.contacts.entities);
+  // const dispatch = useDispatch();
+  // const contacts = useSelector(state => state.contacts.entities);
 
-  useEffect(() => dispatch(fetchContacts()), []);
-  console.log('contacts: ', contacts);
+  // useEffect(() => {
+  //   dispatch(fetchContacts());
+  // }, [dispatch]);
 
   return (
     <Container>

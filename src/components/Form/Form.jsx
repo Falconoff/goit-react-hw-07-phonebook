@@ -4,6 +4,9 @@ import { nanoid } from 'nanoid';
 import toast from 'react-hot-toast';
 
 import { setContactsAction, getContactsArr } from '../../redux/contactsSlice';
+import { contactsOperations, contactsSelectors } from 'redux/contacts';
+
+import { entities } from 'redux/contacts/contactsReducers';
 
 import { FormTag, InputField, FormBtn } from './Form.styled';
 
@@ -32,7 +35,8 @@ export default function Form() {
     resetState();
   };
 
-  const contacts = useSelector(getContactsArr);
+  const contacts = useSelector(contactsSelectors.getContacts);
+
   // add new contact
   const formSubmitHandler = ({ name, number }) => {
     // checking name for matches
@@ -47,7 +51,9 @@ export default function Form() {
     }
     // if not found, add new contact
     const newData = { id: nanoid(5), name, number };
-    dispatch(setContactsAction(newData));
+    // dispatch(setContactsAction(newData)); // old
+    dispatch(entities(newData));
+
     toast.success('Successfully added!');
   };
 
