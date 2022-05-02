@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import toast from 'react-hot-toast';
 
-import { delContactAction, getContactsArr } from '../../redux/contactsSlice';
+// import { delContactAction, getContactsArr } from '../../redux/contactsSlice';
 
 import { getFilterValue } from '../../redux/filterSlice';
 
@@ -10,15 +10,37 @@ import { getFilterValue } from '../../redux/filterSlice';
 import { contactsOperations, contactsSelectors } from 'redux/contacts';
 // import * as contactsSelectors from '../../redux/contacts/contactsSelectors';
 
-import {
-  ContactsList,
-  ContactsListItem,
-  UserName,
-  DeleteBtn,
-} from './Contacts.styled';
-import { useEffect } from 'react';
+import { useFetchContactsQuery } from '../../redux/contactsSlice';
+
+import { ContactsList } from './Contacts.styled';
+
+import ContactsListItem from './ListItem';
 
 export default function Contacts() {
+  const { data: contacts, error, isLoading } = useFetchContactsQuery();
+
+  console.log('contacts: ', contacts);
+  console.log('error: ', error?.data);
+  console.log('isLoading: ', isLoading);
+
+  // const filter = '';
+
+  // for filter
+  const filter = useSelector(getFilterValue);
+  const normalizedFilter = filter.toLowerCase();
+  let filteredContacts = [];
+  if (contacts) {
+    console.log('contacts is exist');
+
+    filteredContacts = contacts.filter(contact =>
+      contact.name.toLowerCase().includes(normalizedFilter)
+    );
+
+    console.log('normalizedFilter in Contacts:', normalizedFilter);
+    console.log('filteredContacts in Contacts:', filteredContacts);
+  }
+
+  /*
   // const contacts = useSelector(getContactsArr);
   // const filter = useSelector(getFilterValue);
   const filter = useSelector(contactsSelectors.getFilterValue);
@@ -40,24 +62,19 @@ export default function Contacts() {
   //   toast.success('Successfully deleted!');
   // };
 
+
   useEffect(() => {
-    dispatch(contactsOperations.fetchContacts());
+    // dispatch(contactsOperations.fetchContacts());
   }, []);
+  */
 
   return (
-    // <>
-    //   <h1>test</h1>
-    // </>
     <ContactsList>
-      {filteredContacts.map(({ name, number, id }) => (
-        <ContactsListItem key={id}>
-          <p>
-            <UserName>{name}: </UserName>
-            {number}
-          </p>
-          {/* <DeleteBtn onClick={() => deleteContact(id)}>delete</DeleteBtn> */}
-        </ContactsListItem>
-      ))}
+      {isLoading && <p>Loading...</p>}
+      {contacts &&
+        filteredContacts.map(contact => (
+          <ContactsListItem key={contact.id} {...contact} />
+        ))}
     </ContactsList>
   );
 }

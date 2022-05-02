@@ -13,4 +13,4 @@ export const filterSlice = createSlice({
 export const { filterAction } = filterSlice.actions;
 
 // SELECTORS
-export const getFilterValue = state => state.contacts.filter;
+export const getFilterValue = state => state.filter;

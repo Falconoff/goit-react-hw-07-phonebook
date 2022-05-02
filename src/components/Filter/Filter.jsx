@@ -8,6 +8,8 @@ export default function Filter() {
   const filter = useSelector(getFilterValue);
   const dispatch = useDispatch();
 
+  console.log('filter value in Filter:', filter);
+
   const changeFilter = evt => dispatch(filterAction(evt.currentTarget.value));
 
   return (
