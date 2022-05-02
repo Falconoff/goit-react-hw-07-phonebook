@@ -1,9 +1,7 @@
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
-
 import toast from 'react-hot-toast';
+
 import { useAddNewContactMutation } from '../../redux/contactsSlice';
-import { getContactsArr } from '../../redux/contactsSlice';
 import { useFetchContactsQuery } from '../../redux/contactsSlice';
 
 import { FormTag, InputField, FormBtn } from './Form.styled';
@@ -13,9 +11,6 @@ import { FormTag, InputField, FormBtn } from './Form.styled';
 export default function Form() {
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
-
-  // -------------- ??? ------------------
-  // let contacts = useSelector(state => state.contacts.queries.data);
   const { data: contacts } = useFetchContactsQuery();
 
   const [addNewContact, { isLoading }] = useAddNewContactMutation();
@@ -28,7 +23,6 @@ export default function Form() {
       case 'number':
         setNumber(evt.target.value);
         break;
-
       default:
         return;
     }
@@ -36,8 +30,6 @@ export default function Form() {
 
   const handleSubmit = evt => {
     evt.preventDefault();
-    // contacts = useSelector(state => state.contacts.queries.data);
-
     const isMatch = checkForMatches(name);
 
     if (isMatch) {
@@ -52,8 +44,6 @@ export default function Form() {
 
   const checkForMatches = name => {
     const normalizedName = name.toLowerCase();
-    // ================== ??? contacts ====================
-    // return false;
     return contacts.some(
       contact => contact.name.toLowerCase() === normalizedName
     );

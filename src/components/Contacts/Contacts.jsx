@@ -1,12 +1,12 @@
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
+import toast from 'react-hot-toast';
 
 import { getFilterValue } from '../../redux/filterSlice';
-
 import { useFetchContactsQuery } from '../../redux/contactsSlice';
 
-import { ContactsList } from './Contacts.styled';
-
 import ContactsListItem from './ListItem';
+
+import { ContactsList } from './Contacts.styled';
 
 export default function Contacts() {
   const { data: contacts, error, isLoading } = useFetchContactsQuery();
@@ -19,6 +19,10 @@ export default function Contacts() {
     filteredContacts = contacts.filter(contact =>
       contact.name.toLowerCase().includes(normalizedFilter)
     );
+  }
+
+  if (error) {
+    toast.error(`Error: ${error.data}`);
   }
 
   return (
